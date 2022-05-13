@@ -35,7 +35,7 @@ describe('New order', () => {
       // cy.get('#nav-flyout-ya-signin').invoke('show'); //click hidden element
       // cy.contains('Sign').click();
 
-//******************************************* CLIENT DETAILS *********************************************************************
+//************************************************* CLIENT DETAILS ***********************************************************
         getClientDetails.firstName()    //First name input field
         getClientDetails.lastName()     //Last name input field
         getClientDetails.companyName()  //Company input field
@@ -43,7 +43,7 @@ describe('New order', () => {
         getClientDetails.phoneExt()     //Phone Extension input field
         getClientDetails.email()        //Email input field
 
-//***********************************************ADDRESS***************************************************
+//****************************************************ADDRESS***********************************************************
         addressElements.streetName.click()      //Address input field
             .type(faker.address.streetName());
 
@@ -59,19 +59,19 @@ describe('New order', () => {
        addressElements.state.click({force:true}) //State input field
        statesElements.texsas.click()      // selecting the state from drop down
 
-//******************************************************** ORDER DETAILS *******************************************************************************
+//************************************************ ORDER DETAILS *******************************************************
         getOrderDetails.orderType() // Order Type input field
         getOrderDetails.orderDescription() //Description input field
 
-//********************************************************** ITEMS ******************************************************************
-//TODO:
+//****************************************** ********* ITEMS ***********************************************************
+// TODO:
 //         //"Add Item Header" button
 //         cy.get('.css-1ve951f').click()
 //
 //TODO:         //"Add Item" button
 //         cy.get('.css-5q0qmu').click()
 
-//*********************************************************** SCHEDULE *******************************************************************
+//************************************************** SCHEDULE **********************************************************
         // Calendar start date input field
 
        getScheduleElements.calStartDatePopup() //Start date calendar popup
