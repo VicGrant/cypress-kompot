@@ -25,12 +25,15 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import loginPage from './page_objects/loginPage';
+import {navigateTo} from "./page_objects/navigationPage";
+import ClientPage from "./page_objects/clientPage";
 // import LoginPage from "./page_objects/loginPage";
-// import LoginPage from "./page_objects/loginPage";
+import clientDetails from '../fixtures/clientDetails.json'
 
 const LoginPage = new loginPage();
+const clientPage = new ClientPage();
 
-Cypress.Commands.add('login', (emial, password, path) =>{
+Cypress.Commands.add('login', (emial, password ) =>{
 
     LoginPage.open('user/login')
     LoginPage.logIn()
@@ -73,3 +76,47 @@ Cypress.Commands.add("SignIn", () => {
 Cypress.Commands.add('getDataTag', (selector) => {
     return cy.get(`a[href="/${selector}"]`);
 });
+
+Cypress.Commands.add('logOut', (email, password) => {
+    loginPage.dropdownUserProfile().click();
+    loginPage.logout().click();
+
+});
+
+Cypress.Commands.add('createClientAllData', (firstNameNumbers, lastName, phoneNumber, address, city, email, company, zip) => {
+    navigateTo.clientPageOpen()
+    cy.wait(2000)
+    clientPage.createBtn().first().click();
+
+    clientPage.firstNamePlaceholder().type(firstNameNumbers);
+    clientPage.lastNamePlaceholder().type(lastName);
+    clientPage.companyPlaceholder().type(company);
+    clientPage.phoneNumberPlaceholder().clear().type(phoneNumber);
+    clientPage.addressLine1Placeholder().type(address);
+    clientPage.emailPlaceholder().type(email);
+    clientPage.statePlaceholder().click();
+    clientPage.stateDropdown().contains('California').click();
+    clientPage.cityPlaceholder().type(city);
+    clientPage.zipCodePlaceholder().type(zip);
+    clientPage.saveBtn().click();
+    clientPage.linkClient().click()
+    clientPage.headerClients().should('contain', 'Clients');
+    // getClientPage.createBtn().click()
+    // cy.fixture('clientDetails').then((clientDetails) => {
+    //     getClientDetails.firstName.type(clientDetails.firstName)
+    //     getClientDetails.lastName.type(clientDetails.lastName)
+    //     getClientDetails.companyName.type(clientDetails.companyName);
+    //     getClientDetails.phoneNumber.type(clientDetails.phoneNumber);
+    //     getClientDetails.phoneExt.type(clientDetails.phoneExt);
+    //     getClientDetails.email.type(clientDetails.email);
+    //
+    //     getClientDetails.streetName.type(clientDetails.streetName)
+    //     getClientDetails.unitNumber.type(clientDetails.unitNumber)
+    //     getClientDetails.cityName.type(clientDetails.city)
+    //     getClientDetails.zipCode.type(clientDetails.zip)
+    //     //getClientDetails.additionalInfo.type(clientDetails.additionalInfo)
+    //     getClientPage.saveBtn().click()
+    //     cy.wait(4000)
+    });
+// })
+// });

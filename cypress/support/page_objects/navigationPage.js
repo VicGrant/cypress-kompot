@@ -40,9 +40,10 @@ export class NavigationPage{
     }
 
     clientPageOpen(){ // Creating method that will open 'Clients' page
-        cy.get('a[href="/client"]').click()
+        cy.get('[href="/client"]').click()
+        //cy.wait(2000)
         cy.get('[data-qa="page-title"]').should('contain','Clients')
-        cy.get('[data-qa="create-client-button"]').should('contain','Create Client') // validation that the page is open
+        //cy.get('[data-qa="create-client-button"]').should('contain','Create Client') // validation that the page is open
     }
 
     ordersPageOpen(){ // Creating method that will open 'Clients' page

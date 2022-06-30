@@ -1,5 +1,4 @@
 const faker = require("faker");
-
 //import cypress from "cypress";
 import addressElements from '../elements/address.elements';
 import authPage from '../support/page_objects/auth.page';
@@ -11,6 +10,7 @@ import {getScheduleElements} from '../elements/schedule.elements';
 //import {getClientDetails} from '../elements/client.elements'
 
 //const addressElements = new AddressElements()
+
 
 describe('New order', () => {
 

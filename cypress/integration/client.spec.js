@@ -1,47 +1,63 @@
 import {navigateTo} from "../support/page_objects/navigationPage";
-import ClientPage, {getClientDetails} from "../support/page_objects/clientPage";
-//import {getClientDetails} from "../elements/client.elements";
-
-import addressElements from "../elements/address.elements";
-
+import ClientPage from "../support/page_objects/clientPage"
+import {getClientDetails, getClientPage} from "../support/page_objects/clientPage"
+import { client } from '../fixtures/clientDetails.json';
 
 const clientPage = new ClientPage()
-//const addressElements = new AddressElements
 
+before('Login',() =>{
+    cy.login()
+    Cypress.Cookies.preserveOnce('connect.sid', 'user_auth')
+})
 
 describe('CLIENT',function () {
-    before('Login',() =>{
-        cy.login()
-    })
-    beforeEach(()=>{
-        Cypress.Cookies.preserveOnce('connect.sid', 'user_auth')
-        });
-    })
-    describe('Client page',() =>{
+
+    // beforeEach(()=>{
+    //     Cypress.Cookies.preserveOnce('connect.sid', 'user_auth')
+    //     });
+    // })
+
+    describe('Client page', () => {
         it('should open client page', function () {
-        navigateTo.clientPageOpen()
+            navigateTo.clientPageOpen()
         });
 
-        it('should open client page', function () {
-            clientPage.createBtn()
+        it('Client create placeholder are correct ', () => {
+            clientPage.createBtn().click()
             clientPage.headerCreateNewClient()
+            clientPage.placeholderAreCorrect()
+        })
+
+        // it('should click create new client button', function () {
+        //     getClientPage.createBtn().click()
+        //     //getClientPage.headerCreateNewClient()
+        //     //getClientPage.placeholderAreCorrect()
+        //     getClientPage.cancelBtn().click();
+        // });
+        it('Codes list in dropdown menu are correct', () => {
+
+           clientPage.createBtn().click()
+           clientPage.phoneCodesAreCorrect();
+           clientPage.codeDropdown().contains('United States').click();
+           clientPage.cancelBtn().click();
         });
 
         it('should type in client information', () => {
-            cy.fixture('clientDetails', (client) => {
-                getClientDetails.firstName.type(client.firstName)
-                getClientDetails.lastName.type(client.lastName)
-                getClientDetails.companyName.type(client.companyName);
-                getClientDetails.phoneNumber.type(client.phoneNumber);
-                getClientDetails.phoneExt.type(client.phoneNumbExt);
-                getClientDetails.email.type(client.email);
+            cy.createClientAllData(client.firstName, client.lastName, client.phoneNumber, client.address, client.city, client.email, client.company, client.zip)
 
-                addressElements.streetName.type(client.streetName)
-                addressElements.unitNumber.type(client.unitNumber)
-                addressElements.cityName.type(client.city)
-                addressElements.zipCode.type(client.zip)
             })
-
-
         })
-    })
+
+        // it('should click save button', () => {
+        //     getClientPage.saveBtn().click()
+        // cy.wait(4000)
+        //     getClientPage.linkClient()
+        //     getClientPage.headerClients().should('contain', 'Clients');
+        // })
+
+        it('Client dashboard has correct data when client created', function () {
+            cy.createClientAllData(client.firstName, client.lastName, client.phoneNumber, client.address, client.city, client.email, client.company, client.zip)
+            clientPage.clientCreated(client.firstName, client.lastName, client.address, client.phoneNumber, client.email, client.company);
+        });
+     //})
+})
